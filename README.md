@@ -8,7 +8,7 @@ Use left/right arrow keys, A/D, or the large on-screen arrows. Tap for one lane 
 
 There is one fast racing mode, with no difficulty selector. Start at **220 km/h**, reach **360 km/h** in about two clean seconds, and recover much faster after collisions. Most groups block two lanes, and the planned open lane changes at every group. At top speed, warnings give **1.2 seconds initially, tightening to 0.75 seconds**. Groups arrive roughly every **2.15–2.4 seconds** when driving at full speed. Each group of four includes all four obstacle types.
 
-Read the three-lane sign: symbols mark obstacles and a dash marks an open lane. Every obstacle has advance warning, and every group leaves a reachable open lane. Road-marking spacing is 11 metres and scenery spacing is 26 metres, giving much faster visual flow at racing speed. Restrained speed streaks appear at high speed. Scenery remains tied to actual driving distance.
+Read the three-lane sign: symbols mark obstacles and a dash marks an open lane. Every obstacle has advance warning, and every group leaves a reachable open lane. Presentation uses amplified optical flow: lane markings move at 4× the driving distance, roadside landmarks and guideposts at 6×, and shoreline waves at 4.5×. Large palms, rocks, shrubs and beach shelters rush from the horizon past the bottom edge, with directional motion trails. SVG objects are reused between frames for smooth movement. This changes only the visual speed: displayed speed, race physics, obstacles, warning timing, elapsed time, distances and scores remain unchanged. Motion still stops when the car stops or the race is paused.
 
 Warnings allow more time than the lane-crossing movement requires. Consecutive groups are spaced so the previous rough patch clears before the next warning. Courses are seeded by local date and race number.
 
@@ -39,6 +39,6 @@ Lumosity’s public [Highway Hazards guide](https://help.lumosity.com/hc/en-us/a
 
 Serve this directory with `python3 -m http.server 8783`, then open localhost:8783. ES modules require HTTP(S), not a file URL.
 
-Run `node check.mjs` with Node.js. The checks cover 180 fair single-mode courses, all obstacle types, fully avoidable 60-second races, safe lane reachability, time-weighted scoring, exact fixed-speed distance, collision effects, ongoing rough-road caps, full stops, steering bounds, pause/resume, frame-rate independence, single daily best scores, replay, saved state, earlier-version migration, corruption handling, local dates and English/Chinese parity.
+Run `node check.mjs` and `node check-motion.mjs` with Node.js. The motion checks verify fast foreground traversal, continuous object positions, frozen paused/stopped frames and bounded reusable scene pools. The checks cover 180 fair single-mode courses, all obstacle types, fully avoidable 60-second races, safe lane reachability, time-weighted scoring, exact fixed-speed distance, collision effects, ongoing rough-road caps, full stops, steering bounds, pause/resume, frame-rate independence, single daily best scores, replay, saved state, earlier-version migration, corruption handling, local dates and English/Chinese parity.
 
 Publish the main branch root with GitHub Pages. Google Fonts are optional, with local fallbacks. Sound is generated locally through Web Audio and requires no downloads or microphone.

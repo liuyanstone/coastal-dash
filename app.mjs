@@ -1,9 +1,11 @@
+import {createMotion} from './motion.mjs?v=flow-4';
 import {LEVELS,TYPES,DURATION,MAX_TICKS,newRace,start,pause,resume,steer,advance,elapsed,average,score,warning,eta} from './engine.mjs?v=fast-3';
 import {STORAGE_KEY,createStore,restoreStore,dayData,record,checkpoint} from './state.mjs?v=fast-3';
 import {localDay} from './engine.mjs?v=fast-3';
 import {t,language,changeLanguage,applyLanguage} from './i18n.mjs?v=fast-3';
 import {createGameAudio} from './audio.mjs?v=fast-3';
 const $=s=>document.querySelector(s),sound=createGameAudio('coastal-dash-sound');
+const motion=createMotion($('#roadLines'),$('#scenery'),$('#speedLines'));
 let store=createStore();try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');store=restoreStore(saved);if(saved?.version===1){try{if(!localStorage.getItem('coastal-dash-archive-v1'))localStorage.setItem('coastal-dash-archive-v1',JSON.stringify(saved));}catch{}}}catch{}
 let day=localDay(),race=dayData(store,day).active||newRace(day,0,dayData(store,day).count+1),lastFrame=performance.now(),lastSave=0,seenHit=-1,warningId=null,noticeKey='',noticeVars={},heldTimer=null,heldDelay=null,helpWasPlaying=false;
 if(race.phase==='playing')race=pause(race);
@@ -17,8 +19,7 @@ function checkDay(){const today=localDay();if(today===day)return false;persist()
 function coursePoint(gap){return Math.max(88,Math.min(780,90+460/(1+gap/35)));}
 function roadWidth(y){return 158+(y-86)/594*458;}
 function laneX(lane,y){return 360+(lane-1)*roadWidth(y)/3;}
-function draw(){const distance=race.distance;let lines='';for(let i=-2;i<70;i++){const gap=i*11-distance%11,y1=coursePoint(gap),y2=coursePoint(gap+5);if(y2>700||y1<89)continue;for(const direction of [-1,1]){const x1=360+direction*roadWidth(y1)/6,x2=360+direction*roadWidth(y2)/6,w=Math.max(1,(y1-70)/120);lines+=`<path d="M${x1-w} ${y1}H${x1+w}L${x2+w*.6} ${y2}H${x2-w*.6}Z" fill="#e6e9ce" opacity=".88"/>`;}}$('#roadLines').innerHTML=lines;
-let trees='';for(let i=0;i<18;i++){const gap=i*26-distance%26,y=coursePoint(gap);if(y>750)continue;const side=i%3===0?-1:1,x=360+side*(roadWidth(y)/2+36),scale=Math.max(.12,(y-65)/480);trees+=`<g transform="translate(${x} ${y}) scale(${scale})"><ellipse cy="12" rx="26" ry="9" fill="#7c99702a"/><path d="M0 12Q12-20 7-55" stroke="#a58d60" stroke-width="9" fill="none"/><path d="M7-51Q-30-76-40-43Q-15-50 7-51Q32-88 51-54Q30-61 7-51Q-5-93-28-77Q-14-65 7-51Q36-44 39-22Q21-36 7-51" fill="#6e9878"/><path d="M8-51Q1-81 18-91Q26-69 8-51" fill="#83a57f"/></g>`;}$('#scenery').innerHTML=trees;let streaks='';const strength=Math.max(0,Math.min(.3,(race.speed-140)/700));for(let i=0;i<12;i++){const y=220+(i*47+distance*3)%470,side=i%2?-1:1,x=360+side*(roadWidth(y)/2+16),length=15+Math.max(0,race.speed-150)/7;streaks+=`<path d="M${x} ${y}l${side*length*.35} ${length}" stroke="#fff3cf" stroke-width="2" opacity="${strength}"/>`;}$('#speedLines').innerHTML=streaks;
+function draw(){const distance=race.distance;motion.draw(distance,race.speed);
 let objects='';for(const e of race.events){const gap=e.distance-distance;if(gap>e.warnDistance||gap<-(e.type==='gravel'?28:10))continue;for(const lane of e.blocked){if(e.type==='gravel'){const near=coursePoint(gap),far=coursePoint(gap+24),xn=laneX(lane,near),xf=laneX(lane,far),wn=roadWidth(near)/3*.4,wf=roadWidth(far)/3*.4;objects+=`<path d="M${xn-wn} ${near}H${xn+wn}L${xf+wf} ${far}H${xf-wf}Z" fill="#998d73" stroke="#6e7262" stroke-width="2"/>`;for(let j=1;j<6;j++){const y=far+(near-far)*j/6,x=laneX(lane,y),w=roadWidth(y)/3*.31;objects+=`<path d="M${x-w} ${y}l${w*.8} -6 ${w*.7} 7 ${w*.5} -4" stroke="#676c5a" stroke-width="3" fill="none" opacity=".7"/>`;}}else{const y=coursePoint(gap),x=laneX(lane,y),scale=Math.max(.25,(y-60)/490);objects+=`<g transform="translate(${x} ${y}) scale(${scale})" opacity="${e.hit?.65:1}" filter="url(#shadow)">${glyphs[e.type]}</g>`;}}}$('#hazards').innerHTML=objects;
 const x=laneX(race.lane,550),tilt=Math.max(-6,Math.min(6,(race.target-race.lane)*7));$('#player').setAttribute('transform',`translate(${x} 550) rotate(${tilt})`);const flash=race.lastHit&&race.ticks-race.lastHit.tick<45;$('#hitFlash').innerHTML=flash?'<rect width="720" height="680" fill="#f2bf8c" opacity=".13"/>':'';
 }
