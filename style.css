@@ -6,3 +6,5 @@
 #resultScore small{font:500 17px var(--body);margin-left:6px;white-space:nowrap}.game.finished .dashboard,.game.finished .warning-board,.game.finished .steering,.game.finished .control-note{display:none}.game.finished .overlay-card{padding:18px}.game.finished .overlay-card h2{font-size:25px;margin:10px 0}.game.finished .overlay-card>p{font-size:16px;line-height:1.65;margin:8px 0}.game.finished #resultStats{gap:12px}.game.finished #resultStats>div{font-size:16px}.game.finished #resultBest{margin:10px 0}
 
 .speed-range{font:500 30px/1.4 var(--serif);display:block;margin-top:9px}.speed-range small{font:500 14px var(--body);white-space:nowrap}#bestRows{grid-template-columns:1fr}.setup .eyebrow{color:#a26843}.setup{background:#f0e9d8;border-color:#dcc9a8}@media(max-width:760px){.speed-range{font-size:31px}}
+
+.movement-warning{font-size:17px;font-weight:700;color:#805032;margin:-3px 0 9px}.lane-sign.origin{border-style:dashed;background:#f6efdf}.lane-sign.destination{border:2px solid #a5693f;background:#ecd8bb}.movement-warning[hidden]{display:none}

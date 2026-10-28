@@ -1,6 +1,6 @@
 // Optical flow only. These distances never enter race physics, warnings or scoring.
 const NS='http://www.w3.org/2000/svg';
-export const FLOW={road:4,roadside:6,waves:4.5};
+export const FLOW={road:6,roadside:10,waves:7};
 export function projectFlow(gap){return 88+622*Math.exp(-gap/90);}
 export function widthAt(y){return 158+(y-86)/594*458;}
 export function flowSlots(distance,multiplier,spacing,count,offset=0){const travel=distance*multiplier+offset,base=Math.floor(travel/spacing);return Array.from({length:count},(_,i)=>{const id=base+i,gap=id*spacing-travel,y=projectFlow(gap);return{id,gap,y,scale:Math.max(.12,(y-70)/455),visible:y>=100&&y<=785};});}
