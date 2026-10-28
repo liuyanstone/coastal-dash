@@ -6,15 +6,11 @@ An original, bilingual three-lane racing game for GitHub Pages. No account, Chat
 
 Use left/right arrow keys, A/D, or the large on-screen arrows. Tap for one lane change or hold to cross multiple lanes. These are the only movement directions. Acceleration is automatic. Each race lasts 60 seconds of active play. Collisions slow the car but never end the race early.
 
-Read the three-lane warning sign: symbols mark obstacles and a dash marks an open lane. Every obstacle, including other racers, has advance warning. All groups leave at least one open lane. Difficulty controls top speed, warning distance and the frequency of two-lane obstacles.
+There is one fast racing mode, with no difficulty selector. Start at **220 km/h**, reach **360 km/h** in about two clean seconds, and recover much faster after collisions. Most groups block two lanes, and the planned open lane changes at every group. At top speed, warnings give **1.2 seconds initially, tightening to 0.75 seconds**. Groups arrive roughly every **2.15–2.4 seconds** when driving at full speed. Each group of four includes all four obstacle types.
 
-| Level | Starting speed | Maximum speed | Minimum warning at top speed |
-| --- | ---: | ---: | ---: |
-| Easy | 70 km/h | 150 km/h | 2.25 seconds |
-| Medium | 85 km/h | 185 km/h | 1.60 seconds |
-| Hard | 100 km/h | 220 km/h | 1.00 second |
+Read the three-lane sign: symbols mark obstacles and a dash marks an open lane. Every obstacle has advance warning, and every group leaves a reachable open lane. Road-marking spacing is 11 metres and scenery spacing is 26 metres, giving much faster visual flow at racing speed. Restrained speed streaks appear at high speed. Scenery remains tied to actual driving distance.
 
-Warnings start farther ahead than the steering time required to reach any lane. Consecutive warning groups are spaced so the previous rough patch clears before the next warning. Courses are seeded by local date, difficulty and race number. Each group of four hazards includes all four types.
+Warnings allow more time than the lane-crossing movement requires. Consecutive groups are spaced so the previous rough patch clears before the next warning. Courses are seeded by local date and race number.
 
 ## Obstacles
 
@@ -31,16 +27,18 @@ Average speed (km/h) = distance (metres) × 3.6 ÷ active elapsed seconds. The s
 
 A fixed 120 Hz simulation makes scoring independent of rendering frame rate. Every finished race includes exactly 7,200 simulation ticks. Pause, instructions, a hidden page or loss of window focus stop the race; paused time never enters the average. Reopening an unfinished drive resumes it paused, preserving distance, speed, lane, hazards and remaining time.
 
-Choose any of three difficulties and replay freely. Keep only the highest finished score at each difficulty for each local calendar day. A lower or unfinished replay does not replace a best. Previous daily records, sound, language and active race are saved on the same browser/device. There are no accounts, cross-device sync or analytics.
+Replay the single racing mode freely. Keep only the highest finished score for each local calendar day. A lower or unfinished replay does not replace a best. Previous daily records, sound, language and the active race are saved on the same browser/device. There are no accounts, cross-device sync or analytics.
+
+Earlier completed records are archived separately as “Earlier version” so they do not compete with the new 360 km/h mode. When migrating, the original three-level save is also backed up locally under `coastal-dash-archive-v1`. An unfinished earlier-version course is not resumed with different physics; the new mode starts fresh.
 
 ## Reference
 
-Lumosity’s public [Highway Hazards guide](https://help.lumosity.com/hc/en-us/articles/12847066257303-Highway-Hazards) describes left/right three-lane controls, advance warning signs, rough road, tumbleweeds, other racers, and scoring based on average speed. Coastal Dash follows those public principles with original SVG art, interface, courses, physics, 60-second duration, obstacle tuning and difficulty settings. Unlike the reference, all racers are warned, as requested. It does not use Lumosity source code, assets, recordings or private specifications, and is not affiliated with Lumosity.
+Lumosity’s public [Highway Hazards guide](https://help.lumosity.com/hc/en-us/articles/12847066257303-Highway-Hazards) describes left/right three-lane controls, advance warning signs, rough road, tumbleweeds, other racers, and scoring based on average speed. Coastal Dash follows those public principles with original SVG art, interface, courses, physics, 60-second duration, obstacle tuning and single fast mode. Unlike the reference, all racers are warned, as requested. It does not use Lumosity source code, assets, recordings or private specifications, and is not affiliated with Lumosity.
 
 ## Run, verify and publish
 
 Serve this directory with `python3 -m http.server 8783`, then open localhost:8783. ES modules require HTTP(S), not a file URL.
 
-Run `node check.mjs` with Node.js. The checks cover 180 fair courses, all obstacle types, 3 fully avoidable 60-second races, safe lane reachability, time-weighted scoring, exact fixed-speed distance, collision effects, ongoing rough-road caps, full stops, steering bounds, pause/resume, frame-rate independence, daily best scores, replay, saved state, corruption handling, local dates and English/Chinese parity.
+Run `node check.mjs` with Node.js. The checks cover 180 fair single-mode courses, all obstacle types, fully avoidable 60-second races, safe lane reachability, time-weighted scoring, exact fixed-speed distance, collision effects, ongoing rough-road caps, full stops, steering bounds, pause/resume, frame-rate independence, single daily best scores, replay, saved state, earlier-version migration, corruption handling, local dates and English/Chinese parity.
 
 Publish the main branch root with GitHub Pages. Google Fonts are optional, with local fallbacks. Sound is generated locally through Web Audio and requires no downloads or microphone.
