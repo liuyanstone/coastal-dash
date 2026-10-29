@@ -8,3 +8,8 @@
 .speed-range{font:500 30px/1.4 var(--serif);display:block;margin-top:9px}.speed-range small{font:500 14px var(--body);white-space:nowrap}#bestRows{grid-template-columns:1fr}.setup .eyebrow{color:#a26843}.setup{background:#f0e9d8;border-color:#dcc9a8}@media(max-width:760px){.speed-range{font-size:31px}}
 
 .movement-warning{font-size:17px;font-weight:700;color:#805032;margin:-3px 0 9px}.lane-sign.origin{border-style:dashed;background:#f6efdf}.lane-sign.destination{border:2px solid #a5693f;background:#ecd8bb}.movement-warning[hidden]{display:none}
+/* Taller steering targets make thumb taps and holds easier. */
+.steering #leftBtn,.steering #rightBtn{min-height:112px;padding:20px 12px;font-size:44px;border-radius:15px}.steering .pause-btn{align-self:center;min-height:58px}
+@media(max-width:760px){.steering{grid-template-columns:1fr 90px 1fr}.steering #leftBtn,.steering #rightBtn{min-height:120px;font-size:46px}}
+@media(max-width:760px){.road-wrap:has(.overlay[hidden]){max-width:min(100%,max(230px,calc((100svh - 440px)*1.059)))}}
+@media(min-width:761px){.road-wrap:has(.overlay[hidden]){max-width:min(100%,clamp(280px,calc((100svh - 410px)*1.059),560px))}}

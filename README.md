@@ -44,3 +44,5 @@ Run `node check.mjs` and `node check-motion.mjs` with Node.js. The motion checks
 Publish the main branch root with GitHub Pages. Google Fonts are optional, with local fallbacks. Sound is generated locally through Web Audio and requires no downloads or microphone.
 
 Cars and tumbleweeds can cross one adjacent lane during their approach. Warnings name the origin and destination (for example, “Left → Middle”), outline the origin and emphasize the destination. One actual object moves smoothly between these lanes; rendering and collision detection share its exact position. The lane outside the swept pair remains safe throughout. Completed 60-second best scores are preserved using their original elapsed time; unfinished older courses restart under the new rules.
+
+Steering buttons have 112px minimum height on larger screens and 120px on phones, with larger arrow symbols. The active road view leaves room for the taller touch targets and crossing warnings. The pause button remains smaller and centered between them.
